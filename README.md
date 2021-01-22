@@ -4,27 +4,34 @@ Vb6jsonx is a COM component that extends VB JSON. It increases the simplicity an
 First register with Regsvr32.exe  vb6jsonx.dll , and then reference it in the project.
 ## examples
 ```vb
-Public Function CreateJson() As String
+Public Function Creating() As String
     Dim i As Long
     Dim Request As New vb6jsonx.JsonObject
 
     With Request.ReNew()
         .AddString "name", "bearx"
-        .AddNumber "age", 50
+        .AddNumber "weight", 61
         .AddBoolean "sex", True
         .AddNull "xxx"
+        
+        With .NewArray("love")
+            .AddString "music"
+            .AddString "painting"
+        End With
+        
         With .NewArray("detail")
             For i = 1 To 5
                 With .NewObject()
                     .AddNumber "ID", i
-                    .AddString "memo", "bearx" & i
+                    .AddString "memo", "中国成都" & i
                     .AddString "create-date", Now
+                    .AddNull "xxx"
                 End With
             Next i
         End With
     End With
         
-    CreateJson = Request.ToJSON()
+    Creating = Request.ToJSON()
     
 End Function
 
