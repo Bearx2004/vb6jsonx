@@ -2,19 +2,24 @@
 Vb6jsonx is a COM component that extends VBA-JSON <https://github.com/vba-tools/vba-json>. It increases the simplicity and usability of **creating** or **querying** JSON objects.
 
 ## Installing
-First register with Regsvr32.exe  vb6jsonx.dll , and then reference it in the project.
+First register vb6jsonx.dll with  regsvr32.exe  , and then reference it in your project.
 ## Examples
 ```vb
 Public Function Creating() As String
     Dim i As Long
-    Dim Request As New vb6jsonx.JsonObject
+    Dim Request As New JsonObject
 
     With Request.ReNew()
         .AddString "name", "bearx"
         .AddNumber "weight", 61
         .AddBoolean "sex", True
         .AddNull "xxx"
-        
+
+        With .NewObject("subobject")
+            .AddString "item1", "a"
+            .AddNumber "item2", 123.456
+        End With
+
         With .NewArray("love")
             .AddString "music"
             .AddString "painting"
@@ -37,7 +42,7 @@ Public Function Creating() As String
 End Function
 
 Public Sub Querying()
-    Dim Request As New vb6jsonx.JsonObject
+    Dim Request As New JsonObject
     Dim queryArray As New JsonArray
     Dim queryObject As New JsonObject
     
@@ -48,6 +53,8 @@ Public Sub Querying()
     Request.OfJSON jsonStr
     
     Debug.Print Request.Query("name")
+    Debug.Print Request.Query("subobject.item1")
+    Debug.Print Request.Query("subobject.item2")
     Debug.Print Request.Query("detail.{COUNT}")
     Debug.Print Request.Query("detail.(1).memo")
     
@@ -63,4 +70,3 @@ Public Sub Querying()
     Debug.Print Request.ToUrlEncoder()
 End Sub
 ```
-
