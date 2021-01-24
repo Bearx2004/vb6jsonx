@@ -4,11 +4,11 @@ Vb6jsonx is a COM component that extends [VBA-JSON][1]. It increases the simplic
 
 > * Dictionary is wrapped JsonObject,Collection is wrapped JsonArray.
 > * The simplicity of creating objects.
-> * Query the object value through the path.
+> * Query the object value by a path string.
 
 ## Installing
 
-First register vb6jsonx.dll with regsvr32.exe, and then reference it in your project.
+First register vb6jsonx.dll using regsvr32.exe, and then reference it in your project.
 
 ## Examples
 
