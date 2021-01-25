@@ -85,7 +85,6 @@ Public Function Query(ByVal path As String) As Variant
         ElseIf p(i) Like "(*)" Then
             idx = Abs(p(i))
             If TypeName(o) <> "Collection" Then
-               If TypeName(o) <> "Collection" Then
                 Err.Raise vbObjectError + 100, , "index (" & idx & ") in current node is not Collection at path:" & path
             ElseIf (idx > o.Count Or idx < 1) Then
                 Err.Raise vbObjectError + 100, , "index (" & idx & ") in current Collection is out of range at path:" & path
