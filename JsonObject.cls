@@ -88,15 +88,21 @@ Public Function Query(ByVal path As String) As Variant
             o = o.Count
         ElseIf p(i) Like "(*)" Then
             idx = Abs(p(i))
-            If IsObject(o(idx)) Then
+            If TypeName(o) <> "Collection" Then
+                Err.Raise vbObjectError + 100, , "index (" & idx & ") in current node is not Collection at path:" & path
+            ElseIf (idx > o.Count Or idx < 1) Then
+                Err.Raise vbObjectError + 100, , "index (" & idx & ") in current Collection is out of range at path:" & path
+            ElseIf IsObject(o(idx)) Then
                 Set o = o(idx)
             Else
                 o = o(idx)
             End If
         Else
             k = p(i)
-            If Not o.Exists(k) Then
-                Err.Raise vbObjectError + 100, , "key """ & k & """ not  exists at path:" & path
+            If TypeName(o) <> "Dictionary" Then
+                Err.Raise vbObjectError + 100, , "key """ & k & """ in current node is not Dictionary at path:" & path
+            ElseIf Not o.Exists(k) Then
+                Err.Raise vbObjectError + 100, , "key """ & k & """ in current Dictionary is not exists at path:" & path
             Else
                 If IsObject(o(k)) Then
                     Set o = o(k)
@@ -150,4 +156,5 @@ Public Function ToUrlEncoder(Optional ByVal linkChar As String = "=", Optional B
     
     ToUrlEncoder = Join(values, linkItemChar)
 End Function
+
 
