@@ -103,12 +103,10 @@ Public Function Query(ByVal path As String) As Variant
                 Err.Raise vbObjectError + 100, , "key """ & k & """ in current node is not Dictionary at path:" & path
             ElseIf Not o.Exists(k) Then
                 Err.Raise vbObjectError + 100, , "key """ & k & """ in current Dictionary is not exists at path:" & path
+            ElseIf IsObject(o(k)) Then
+                Set o = o(k)
             Else
-                If IsObject(o(k)) Then
-                    Set o = o(k)
-                Else
-                    o = o(k)
-                End If
+                o = o(k)
             End If
         End If
     Next i
