@@ -73,10 +73,12 @@ Public Function Query(ByVal path As String) As Variant
     Dim i As Long
     Dim n As Long
     
-    If InStr(path, ".") Then
+    If InStr(path, "/") Then
+        p = Split(path, "/")
+    ElseIf InStr(path, ".") Then
         p = Split(path, ".")
     Else
-        p = Split(path, "/")
+        p = Split(path, "")
     End If
     
     n = UBound(p)
@@ -84,7 +86,10 @@ Public Function Query(ByVal path As String) As Variant
     
     For i = 0 To n
         p(i) = Trim(p(i))
-        If p(i) = "{COUNT}" Then
+        
+        If p(i) = "" Then
+            'continue
+        ElseIf p(i) = "{COUNT}" Then
             o = o.Count
         ElseIf p(i) Like "(*)" Then
             idx = Abs(p(i))

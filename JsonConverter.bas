@@ -59,6 +59,8 @@ Private Type json_Options
 
     ' The solidus (/) is not required to be escaped, use this option to escape them as \/ in ConvertToJson
     EscapeSolidus As Boolean
+    
+    KeepStringUnicode As Boolean
 End Type
 
 Public JsonOptions As json_Options
@@ -284,9 +286,9 @@ Public Function ConvertToJson(ByVal JsonValue As Variant, Optional ByVal Whitesp
                     End If
 
                     If json_PrettyPrint Then
-                        json_Converted = vbNewLine & json_Indentation & """" & json_Key & """: " & json_Converted
+                        json_Converted = vbNewLine & json_Indentation & """" & json_Encode(json_Key) & """: " & json_Converted
                     Else
-                        json_Converted = """" & json_Key & """:" & json_Converted
+                        json_Converted = """" & json_Encode(json_Key) & """:" & json_Converted
                     End If
 
                     json_BufferAppend json_Buffer, json_Converted, json_BufferPosition, json_BufferLength
@@ -631,7 +633,9 @@ Private Function json_Encode(ByVal json_Text As Variant) As String
             json_Char = "\t"
         Case 0 To 31, 127 To 65535
             ' Non-ascii characters -> convert to 4-digit hex
-            'json_Char = "\u" & VBA.Right$("0000" & VBA.Hex$(json_AscCode), 4)
+            If JsonOptions.KeepStringUnicode = False Then
+                json_Char = "\u" & VBA.Right$("0000" & VBA.Hex$(json_AscCode), 4)
+            End If
         End Select
 
         json_BufferAppend json_Buffer, json_Char, json_BufferPosition, json_BufferLength
@@ -763,6 +767,13 @@ Private Function json_BufferToString(ByRef json_Buffer As String, ByVal json_Buf
     End If
 End Function
 
-
+Sub main()
+    With JsonOptions
+        .AllowUnquotedKeys = True
+        .UseDoubleForLargeNumbers = True
+        .EscapeSolidus = True
+        .KeepStringUnicode = True
+    End With
+End Sub
 
 
