@@ -92,15 +92,19 @@ Public Function Query(ByVal path As String) As Variant
         ElseIf p(i) = "{COUNT}" Then
             o = o.Count
         ElseIf p(i) Like "(*)" Then
-            idx = Abs(p(i))
-            If TypeName(o) <> "Collection" Then
-                Err.Raise vbObjectError + 100, , "index (" & idx & ") in current node is not Collection at path:" & path
-            ElseIf (idx > o.Count Or idx < 1) Then
-                Err.Raise vbObjectError + 100, , "index (" & idx & ") in current Collection is out of range at path:" & path
-            ElseIf IsObject(o(idx)) Then
-                Set o = o(idx)
+            If Not IsNumeric(p(i)) Then
+                Err.Raise vbObjectError + 100, , "the string """ & p(i) & """ in current node is not numeric index at path:" & path
             Else
-                o = o(idx)
+                idx = Abs(p(i))
+                If TypeName(o) <> "Collection" Then
+                    Err.Raise vbObjectError + 100, , "index (" & idx & ") in current node is not Collection at path:" & path
+                ElseIf (idx > o.Count Or idx < 1) Then
+                    Err.Raise vbObjectError + 100, , "index (" & idx & ") in current Collection is out of range at path:" & path
+                ElseIf IsObject(o(idx)) Then
+                    Set o = o(idx)
+                Else
+                    o = o(idx)
+                End If
             End If
         Else
             k = p(i)
