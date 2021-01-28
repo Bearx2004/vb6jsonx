@@ -8,7 +8,7 @@ Vb6jsonx is a COM component that using [VBA-JSON][1]. It increases the simplicit
 
 ## Special Notice
 
-About source file [**jsonConverter.bas**] , I copied it from  [VBA-JSON][1] and have made modifications. If you have no special requirements,  please replace it with the original source file. Thanks for [VBA-JSON][1], a beautiful JSON parsing module.
+About source file [**JsonConverter.bas**] , I copied it from  [VBA-JSON][1] and have made modifications. If you have no special requirements,  please replace it with the original source file. Thanks for [VBA-JSON][1], a beautiful JSON parsing module.
 
 ## Installing
 
