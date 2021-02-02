@@ -233,13 +233,7 @@ Private Sub json_Convert(ByRef jsonBuffer As json_Buffer, ByRef JsonValue As Var
         
     Case VBA.vbInteger, VBA.vbLong, VBA.vbSingle, VBA.vbDouble, VBA.vbCurrency, VBA.vbDecimal
         ' Number (use decimals for numbers)
-        Dim numStr As String
-        
-        numStr = VBA.Replace(JsonValue, ",", ".")
-        If Mid(numStr, 1, 1) = "." Then
-            numStr = "0" & numStr
-        End If
-        json_BufferAppend jsonBuffer, numStr
+        json_BufferAppend jsonBuffer, VBA.Replace(JsonValue, ",", ".")
 
     End Select
 End Sub
@@ -319,7 +313,7 @@ Private Function json_ParseValue(json_String As String, ByRef json_Index As Long
         ElseIf VBA.Mid$(json_String, json_Index, 4) = "null" Then
             json_ParseValue = Null
             json_Index = json_Index + 4
-        ElseIf VBA.InStr("+-0123456789", VBA.Mid$(json_String, json_Index, 1)) Then
+        ElseIf VBA.InStr("+-0123456789.", VBA.Mid$(json_String, json_Index, 1)) Then
             json_ParseValue = json_ParseNumber(json_String, json_Index)
         Else
             Err.Raise 10001, "JSONConverter", json_ParseErrorMessage(json_String, json_Index, "Expecting 'STRING', 'NUMBER', null, true, false, '{', or '['")
