@@ -57,8 +57,8 @@ Public Sub AddBoolean(ByVal value As Boolean)
     Coll.Add value
 End Sub
 
-Public Sub AddNumber(ByVal value As Double)
-    Coll.Add value
+Public Sub AddNumber(ByVal value As Variant)
+    Coll.Add CDec(value)
 End Sub
 
 Public Function Query(ByVal path As String) As Variant

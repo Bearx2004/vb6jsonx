@@ -57,8 +57,8 @@ Public Sub AddBoolean(ByVal key As String, ByVal value As Boolean)
     Dict.Add key, value
 End Sub
 
-Public Sub AddNumber(ByVal key As String, ByVal value As Double)
-    Dict.Add key, value
+Public Sub AddNumber(ByVal key As String, ByVal value As Variant)
+    Dict.Add key, CDec(value)
 End Sub
 
 Public Sub AddNull(ByVal key As String)
