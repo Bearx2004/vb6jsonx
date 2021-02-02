@@ -45,6 +45,8 @@ Attribute VB_Name = "JsonConverter"
 ' ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ '
 Option Explicit
 
+Private Declare Function GetTickCount Lib "kernel32" () As Long
+
 Private Type json_Options
     ' VBA only stores 15 significant digits, so any numbers larger than that are truncated
     ' This can lead to issues when BIGINT's are used (e.g. for Ids or Credit Cards), as they will be invalid above 15 digits
@@ -158,6 +160,7 @@ Private Sub json_Convert(ByRef jsonBuffer As json_Buffer, ByRef JsonValue As Var
    
     ' Dictionary or Collection
     Case VBA.vbObject
+
         json_IsFirstItem = True
            
         If jsonBuffer.PrettyPrint Then
@@ -230,7 +233,13 @@ Private Sub json_Convert(ByRef jsonBuffer As json_Buffer, ByRef JsonValue As Var
         
     Case VBA.vbDecimal ' VBA.vbInteger, VBA.vbLong, VBA.vbSingle, VBA.vbDouble, VBA.vbCurrency, VBA.vbDecimal
         ' Number (use decimals for numbers)
-        json_BufferAppend jsonBuffer, VBA.Replace(JsonValue, ",", ".")
+        Dim numStr As String
+        
+        numStr = VBA.Replace(JsonValue, ",", ".")
+        If Mid(numStr, 1, 1) = "." Then
+            numStr = "0" & numStr
+        End If
+        json_BufferAppend jsonBuffer, numStr
 
     End Select
 End Sub
