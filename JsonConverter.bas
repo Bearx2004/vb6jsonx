@@ -231,7 +231,7 @@ Private Sub json_Convert(ByRef jsonBuffer As json_Buffer, ByRef JsonValue As Var
             json_BufferAppend jsonBuffer, json_Indentation & "]"
         End If
         
-    Case VBA.vbDecimal ' VBA.vbInteger, VBA.vbLong, VBA.vbSingle, VBA.vbDouble, VBA.vbCurrency, VBA.vbDecimal
+    Case VBA.vbInteger, VBA.vbLong, VBA.vbSingle, VBA.vbDouble, VBA.vbCurrency, VBA.vbDecimal
         ' Number (use decimals for numbers)
         Dim numStr As String
         
