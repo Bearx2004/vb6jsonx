@@ -1,6 +1,6 @@
 # vb6jsonx
 
-Vb6jsonx is a COM component that using [VBA-JSON][1]. It increases the simplicity and usability of **creating** or **querying** JSON objects.
+Vb6jsonx is a COM component that using [VBA-JSON][1] module. It increases the simplicity and usability of **creating** or **querying** JSON objects.
 
 > * Dictionary is wrapped to JsonObject,Collection is wrapped to JsonArray.
 > * The simplicity of creating objects.
